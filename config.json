@@ -1,0 +1,16 @@
+{
+  "_说明": "秋招后端配置，修改后重启 server.js 生效。所有以 _ 开头的字段仅为注释，程序会忽略。",
+  "port": 8080,
+  "_port": "浏览器访问地址为 http://localhost:8080 ；手机访问需改用电脑局域网 IP，如 http://192.168.x.x:8080",
+  "query": "2027 秋招 校招 网申 截止 投递",
+  "_query": "Bing 搜索关键词，可改成更精准的短语，如加公司名/岗位",
+  "bingKey": "",
+  "_bingKey": "Azure Bing Web Search API 的 Ocp-Apim-Subscription-Key；留空则只使用下面的 RSS 源抓取",
+  "bingEndpoint": "https://api.bing.microsoft.com/v7.0/search",
+  "rssFeeds": [],
+  "_rssFeeds": "公众号/招聘站点 RSS 桥接地址数组。例：{\"name\":\"牛客校招\",\"url\":\"https://werss.example/feed\"}。可用 WeRSS、RSSHub 等公开桥接把公众号转成 RSS。留空则只抓 Bing。",
+  "cityFilter": [],
+  "_cityFilter": "只保留这些城市，留空=不限。例：[\"上海\",\"深圳\",\"杭州\"]",
+  "fetchOnStart": true,
+  "fetchHour": 8
+}

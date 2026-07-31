@@ -1,0 +1,40 @@
+name: 秋招每日抓取
+
+# 「关机也能跑」的云端定时任务：
+# - schedule 每天 UTC 01:00（北京时间 09:00）自动执行一次
+# - workflow_dispatch 允许在 Actions 页面手动点一下立即跑
+# 脚本把结果写入仓库根的 recruit.json，前端通过 jsDelivr / raw 直接读取。
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write        # 允许把更新后的 recruit.json 提交回仓库
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 配置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 运行抓取脚本
+        env:
+          RECRUIT_BING_KEY: ${{ secrets.RECRUIT_BING_KEY }}   # 在仓库 Settings → Secrets 里添加，不要在 config.json 写明文
+        run: node scripts/fetch-recruit.mjs
+
+      - name: 提交 recruit.json
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: 自动更新秋招数据'
+          file_pattern: 'recruit.json'
+          commit_user_name: 'recruit-bot'
+          commit_user_email: 'bot@workbuddy.local'

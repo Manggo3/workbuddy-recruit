@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的工作台</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- 左侧导航 -->
+  <aside class="sidebar">
+    <div class="side-head">
+      <div class="avatar" id="avatar">🐶</div>
+      <div class="brand"><span class="brand-name">我的工作台 🐾</span></div>
+    </div>
+    <nav class="nav" id="nav">
+      <button data-view="dashboard" class="nav-item active"><span class="nav-ic">🏠</span><span class="nav-tx">概览</span></button>
+      <button data-view="schedule" class="nav-item"><span class="nav-ic">📅</span><span class="nav-tx">日程</span></button>
+      <button data-view="finance" class="nav-item"><span class="nav-ic">💰</span><span class="nav-tx">财务</span></button>
+      <button data-view="fitness" class="nav-item"><span class="nav-ic">💪</span><span class="nav-tx">健身</span></button>
+      <button data-view="diet" class="nav-item"><span class="nav-ic">🍎</span><span class="nav-tx">饮食</span></button>
+      <button data-view="todo" class="nav-item"><span class="nav-ic">✅</span><span class="nav-tx">待办</span></button>
+      <button data-view="recruit" class="nav-item"><span class="nav-ic">🎓</span><span class="nav-tx">秋招</span></button>
+    </nav>
+    <div class="side-foot">
+      <button class="theme-toggle" id="themeToggle" title="切换深色 / 浅色">🌙</button>
+    </div>
+  </aside>
+
+  <!-- 主区域 -->
+  <div class="main-col">
+
+    <!-- 顶部欢迎栏 -->
+    <header class="topbar">
+      <div class="welcome">
+        <div class="welcome-text">
+          <div class="hi" id="greet">下午好，</div>
+          <div class="who"><b id="userName">我</b> · <span id="userRole">个人工作台</span></div>
+        </div>
+      </div>
+      <div class="top-right">
+        <div class="clock-box"><span id="clock">--:--</span><span class="clock-date" id="clockDate"></span></div>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- 概览 -->
+      <section id="view-dashboard" class="view active">
+        <div class="kpi-row">
+          <div class="kpi-card"><div class="kpi-top"><span class="kpi-ic blue">✅</span><span class="kpi-label">今日待办</span></div><div id="kpi-todo" class="kpi-body"></div></div>
+          <div class="kpi-card"><div class="kpi-top"><span class="kpi-ic orange">📈</span><span class="kpi-label">完成率</span></div><div id="kpi-rate" class="kpi-body"></div></div>
+          <div class="kpi-card"><div class="kpi-top"><span class="kpi-ic green">💰</span><span class="kpi-label">本月结余</span></div><div id="kpi-balance" class="kpi-body"></div></div>
+          <div class="kpi-card"><div class="kpi-top"><span class="kpi-ic purple">💪</span><span class="kpi-label">本周健身</span></div><div id="kpi-fit" class="kpi-body"></div></div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="card quick-card">
+            <h3>⚡ 快捷入口</h3>
+            <div class="quick-grid">
+              <div class="quick" data-view="schedule"><span class="ic blue">📅</span><span>添加日程</span></div>
+              <div class="quick" data-view="finance"><span class="ic green">💰</span><span>记一笔</span></div>
+              <div class="quick" data-view="fitness"><span class="ic purple">💪</span><span>去健身</span></div>
+              <div class="quick" data-view="diet"><span class="ic orange">🍎</span><span>记饮食</span></div>
+              <div class="quick" data-view="todo"><span class="ic blue">✅</span><span>待办清单</span></div>
+              <div class="quick" data-view="recruit"><span class="ic purple">🎓</span><span>秋招追踪</span></div>
+              <div class="quick" data-action="export"><span class="ic green">💾</span><span>数据备份</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>✅ 今日待办 <span class="h3-link" data-view="todo">全部 →</span></h3>
+            <div id="dash-todo-list" class="mini-list"></div>
+          </div>
+
+          <div class="card">
+            <h3>📅 今日日程</h3>
+            <div id="dash-schedule-list" class="mini-list"></div>
+          </div>
+
+          <div class="card">
+            <h3>🔔 提醒 / 系统消息</h3>
+            <div id="dash-alerts" class="mini-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 日程 -->
+      <section id="view-schedule" class="view">
+        <div class="layout">
+          <div class="panel-main">
+            <div class="toolbar">
+              <button id="sched-prev" class="icon-btn">‹</button>
+              <button id="sched-today" class="btn-small">今天</button>
+              <button id="sched-next" class="icon-btn">›</button>
+              <span id="sched-label" class="toolbar-label"></span>
+              <div class="seg">
+                <button class="seg-btn" data-mode="month">月</button>
+                <button class="seg-btn" data-mode="week">周</button>
+                <button class="seg-btn" data-mode="day">日</button>
+              </div>
+            </div>
+            <div id="schedule-calendar"></div>
+          </div>
+          <div class="panel-form">
+            <div class="card">
+              <h3 class="accent-head">➕ 新增日程</h3>
+              <form id="schedule-form" class="form">
+                <label>标题<input id="ev-title" type="text" placeholder="如：家教 / 实习" required></label>
+                <label>地点<input id="ev-location" type="text" placeholder="可选"></label>
+                <label>重复方式
+                  <select id="ev-recurrence">
+                    <option value="once">单次</option>
+                    <option value="weekly">每周重复</option>
+                  </select>
+                </label>
+                <div id="ev-date-wrap"><label>日期<input id="ev-date" type="date"></label></div>
+                <div id="ev-wd-wrap" style="display:none"><label>重复星期
+                  <div class="wd-group">
+                    <label class="wd"><input type="checkbox" name="wd" value="0">日</label>
+                    <label class="wd"><input type="checkbox" name="wd" value="1">一</label>
+                    <label class="wd"><input type="checkbox" name="wd" value="2">二</label>
+                    <label class="wd"><input type="checkbox" name="wd" value="3">三</label>
+                    <label class="wd"><input type="checkbox" name="wd" value="4">四</label>
+                    <label class="wd"><input type="checkbox" name="wd" value="5">五</label>
+                    <label class="wd"><input type="checkbox" name="wd" value="6">六</label>
+                  </div>
+                </label></div>
+                <div class="row2">
+                  <label>开始<input id="ev-start" type="time"></label>
+                  <label>结束<input id="ev-end" type="time"></label>
+                </div>
+                <label>分类
+                  <select id="ev-category">
+                    <option>学习</option><option>工作</option><option>实习</option><option>家教</option><option>运动</option><option>会议</option><option>其他</option>
+                  </select>
+                </label>
+                <label>备注<textarea id="ev-note" rows="2"></textarea></label>
+                <button type="submit" class="btn">保存日程</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 财务 -->
+      <section id="view-finance" class="view">
+        <div class="toolbar">
+          <button id="fin-prev" class="icon-btn">‹</button>
+          <span id="fin-label" class="toolbar-label"></span>
+          <button id="fin-next" class="icon-btn">›</button>
+        </div>
+        <div class="summary">
+          <div class="sum-card inc"><span>收入</span><b id="fin-income">¥0.00</b></div>
+          <div class="sum-card exp"><span>支出</span><b id="fin-expense">¥0.00</b></div>
+          <div class="sum-card bal"><span>结余</span><b id="fin-balance">¥0.00</b></div>
+        </div>
+        <div class="layout">
+          <div class="panel-form">
+            <div class="card">
+              <h3 class="accent-head">➕ 记一笔</h3>
+              <form id="finance-form" class="form">
+                <div class="radio-row">
+                  <label class="rd"><input type="radio" name="fintype" value="expense" checked>支出</label>
+                  <label class="rd"><input type="radio" name="fintype" value="income">收入</label>
+                  <label class="rd"><input type="radio" name="fintype" value="transfer">转账</label>
+                </div>
+                <label>金额<input id="fin-amount" type="number" step="0.01" min="0" placeholder="0.00" required></label>
+                <label id="fin-account-wrap">账户<select id="fin-account">
+                  <option>现金</option><option>微信</option><option>支付宝</option><option>储蓄卡</option><option>信用卡</option><option>交通卡</option><option>食堂卡</option><option>团购券</option><option>其他</option>
+                </select></label>
+                <label id="fin-toaccount-wrap" style="display:none">到账户<select id="fin-toaccount">
+                  <option>现金</option><option>微信</option><option>支付宝</option><option>储蓄卡</option><option>信用卡</option><option>交通卡</option><option>食堂卡</option><option>团购券</option><option>其他</option>
+                </select></label>
+                <label id="fin-category-wrap">分类<select id="fin-category">
+                  <option>餐饮</option><option>交通</option><option>购物</option><option>居住</option><option>娱乐</option><option>学习</option><option>医疗</option><option>工资</option><option>兼职</option><option>投资</option><option>红包</option><option>其他</option>
+                </select></label>
+                <label>日期<input id="fin-date" type="date"></label>
+                <label>备注<textarea id="fin-note" rows="2"></textarea></label>
+                <button type="submit" class="btn">保存</button>
+              </form>
+            </div>
+          </div>
+          <div class="panel-main">
+            <div class="card"><h3 class="accent-head">💳 账户余额</h3><div id="fin-accounts" class="card-body"></div></div>
+            <div class="card"><h3 class="accent-head">📊 支出分类</h3><div id="fin-cats" class="card-body"></div></div>
+            <div class="card"><h3 class="accent-head">📜 明细</h3><div id="fin-list" class="card-body rows"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 健身 -->
+      <section id="view-fitness" class="view">
+        <div class="summary">
+          <div class="sum-card"><span>本周打卡</span><b id="fit-week-count">0 次</b></div>
+          <div class="sum-card"><span>本周时长</span><b id="fit-week-min">0 分钟</b></div>
+          <div class="sum-card"><span>本月时长</span><b id="fit-month-min">0 分钟</b></div>
+        </div>
+        <div class="layout">
+          <div class="panel-form">
+            <div class="card">
+              <h3 class="accent-head">💪 健身打卡</h3>
+              <form id="fitness-form" class="form">
+                <label>日期<input id="fit-date" type="date"></label>
+                <label>类型<select id="fit-type">
+                  <option>跑步</option><option>力量训练</option><option>瑜伽</option><option>游泳</option><option>骑行</option><option>球类</option><option>徒步</option><option>其他</option>
+                </select></label>
+                <label>时长(分钟)<input id="fit-duration" type="number" min="0" placeholder="如：45" required></label>
+                <label>备注<textarea id="fit-note" rows="2"></textarea></label>
+                <button type="submit" class="btn">打卡</button>
+              </form>
+            </div>
+          </div>
+          <div class="panel-main">
+            <div class="card"><h3 class="accent-head">📜 打卡记录<span class="h3-count" id="fit-count"></span></h3><div id="fit-list" class="card-body rows"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 饮食 -->
+      <section id="view-diet" class="view">
+        <div class="toolbar">
+          <label>日期<input id="diet-date" type="date"></label>
+          <span class="toolbar-label">当日合计 <b id="diet-total">0 kcal</b></span>
+        </div>
+        <div class="layout">
+          <div class="panel-form">
+            <div class="card">
+              <h3 class="accent-head">🍎 记录饮食</h3>
+              <form id="diet-form" class="form">
+                <label>餐次<select id="diet-meal">
+                  <option>早餐</option><option>午餐</option><option>晚餐</option><option>加餐</option>
+                </select></label>
+                <label>食物<input id="diet-food" type="text" placeholder="如：鸡胸肉沙拉" required></label>
+                <label>热量(kcal)<input id="diet-cal" type="number" min="0" placeholder="可选"></label>
+                <label>备注<textarea id="diet-note" rows="2"></textarea></label>
+                <button type="submit" class="btn">保存</button>
+              </form>
+            </div>
+          </div>
+          <div class="panel-main">
+            <div class="card"><h3 class="accent-head">📖 饮食记录<span class="h3-count" id="diet-count"></span></h3><div id="diet-list" class="card-body"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 待办 -->
+      <section id="view-todo" class="view">
+        <div class="toolbar">
+          <label>日期<input id="todo-date" type="date"></label>
+          <span class="toolbar-label" id="todo-remain"></span>
+        </div>
+        <div class="card">
+          <h3 class="accent-head">✅ 每日待办<span class="h3-count" id="todo-count"></span></h3>
+          <form id="todo-form" class="todo-bar">
+            <input id="todo-input" type="text" placeholder="添加一项待办，回车保存…" autocomplete="off">
+            <button type="submit" class="btn" style="width:auto;padding:10px 18px;margin:0">添加</button>
+          </form>
+          <div id="todo-list" class="todo-list"></div>
+        </div>
+      </section>
+
+      <!-- 秋招 -->
+      <section id="view-recruit" class="view">
+        <div class="toolbar">
+          <button id="recruit-refresh" class="btn-small">🔄 刷新</button>
+          <button id="recruit-src" class="btn-small" title="切换数据源：本地后端 / 云端 JSON">⚙️ 数据源</button>
+          <span class="toolbar-label" id="recruit-summary"></span>
+          <select id="recruit-filter-status" class="filter-sel">
+            <option value="all">全部状态</option>
+            <option value="interest">⭐ 感兴趣</option>
+            <option value="applied">✅ 已投递</option>
+            <option value="todo">📋 待投递</option>
+          </select>
+          <select id="recruit-filter-source" class="filter-sel"><option value="all">全部来源</option></select>
+          <select id="recruit-filter-city" class="filter-sel"><option value="all">全部城市</option></select>
+        </div>
+        <div id="recruit-notice" class="recruit-notice" style="display:none"></div>
+        <div class="layout">
+          <div class="panel-main">
+            <div class="card"><h3 class="accent-head">📋 秋招信息</h3><div id="recruit-list" class="card-body rows"></div></div>
+          </div>
+          <div class="panel-form">
+            <div class="card">
+              <h3 class="accent-head">➕ 手动添加</h3>
+              <form id="recruit-form" class="form">
+                <label>公司 / 标题<input id="rc-title" type="text" placeholder="如：腾讯 2027 校招" required></label>
+                <label>公司<input id="rc-company" type="text" placeholder="可选，可自动识别"></label>
+                <label>链接<input id="rc-url" type="text" placeholder="招聘详情页 URL"></label>
+                <label>城市<input id="rc-city" type="text" placeholder="如：上海"></label>
+                <label>截止日期<input id="rc-deadline" type="date"></label>
+                <label>备注<textarea id="rc-note" rows="2"></textarea></label>
+                <button type="submit" class="btn">添加</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
